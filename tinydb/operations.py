@@ -1,3 +1,4 @@
+# tinydb-agent: rules-ok
 """
 A collection of update operations for TinyDB.
 
@@ -41,6 +42,17 @@ def subtract(field: str, n: Union[int, float]) -> Callable[[MutableMapping], Non
     """
     def transform(doc: MutableMapping):
         doc[field] -= n
+
+    return transform
+
+
+def multiply(field: str, n: Union[int, float]) -> Callable[[MutableMapping], None]:
+    """
+    Multiply a given field in the document by ``n``.
+    """
+
+    def transform(doc: MutableMapping):
+        doc[field] *= n
 
     return transform
 

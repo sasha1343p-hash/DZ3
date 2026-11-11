@@ -1,5 +1,8 @@
+# tinydb-agent: rules-ok
 from tinydb import where
-from tinydb.operations import delete, increment, decrement, add, subtract, set
+from tinydb.operations import (
+    delete, increment, decrement, add, subtract, multiply, set
+)
 
 
 def test_delete(db):
@@ -20,6 +23,11 @@ def test_add_str(db):
 def test_subtract(db):
     db.update(subtract('int', 5), where('char') == 'a')
     assert db.get(where('char') == 'a')['int'] == -4
+
+
+def test_multiply(db):
+    db.update(multiply('int', 3), where('char') == 'a')
+    assert db.get(where('char') == 'a')['int'] == 3
 
 
 def test_set(db):
