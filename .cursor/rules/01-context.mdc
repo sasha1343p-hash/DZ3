@@ -1,0 +1,21 @@
+---
+description: Назначение TinyDB, модули и термины
+alwaysApply: true
+---
+
+# Контекст
+
+TinyDB 4.9.0 — документная база на чистом Python, без зависимостей и без сервера. Документ — `dict`. По умолчанию всё пишется в один JSON-файл. Учебный снимок upstream, проект там в режиме сопровождения: маленькие правки, не новая архитектура.
+
+- `database.py` — хранилище, реестр таблиц, прокси к `_default`.
+- `table.py` — CRUD, `Document`, кэш запросов, `doc_id`.
+- `queries.py` — `Query` и `where`.
+- `storages.py` — `Storage`, `JSONStorage`, `MemoryStorage`. `read()` может вернуть `None`.
+- `middlewares.py` — обёртка над storage, не над таблицей.
+- `operations.py` — callable для `Table.update`. Сами в файл не пишут.
+- `utils.py` — `LRUCache`, `FrozenDict`.
+- `tinydb/__init__.py` — только фасад `__all__`.
+
+Термины: `doc_id` — атрибут документа, не поле `_id`. В памяти id — `int`, в JSON ключ — строка. Имя таблицы по умолчанию — `_default`. Пустой `Query()` вычислять нельзя.
+
+Запуск: `uv sync --group dev`, затем `uv run py.test -v --cov=tinydb`. Extra `[dev]` нет. Если `uv` нет — venv вне репозитория и `python -m pytest -v --cov=tinydb` после установки `pytest`, `pytest-cov`, `pycodestyle`, `pytest-pycodestyle` и `pip install -e .`. Это запасной прогон, его так и называют.

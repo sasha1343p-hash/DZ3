@@ -48,6 +48,15 @@ To dive straight into all the details, head over to the `TinyDB docs
 to TinyDB like general development, extensions or showcase your TinyDB-based
 projects on the `discussion forum <http://forum.m-siemens.de/.>`_.
 
+Working in this repository with an AI assistant
+************************************************
+
+Humans and coding agents follow ``AGENTS.md``. Cursor also loads the project
+rules in ``.cursor/rules/``. Those files are the source of truth for module
+boundaries, frozen contracts, code style, and how to check a change.
+``AGENTS.md`` is the canonical text. The ``.mdc`` rules are the same
+constraints in the form Cursor injects into the agent.
+
 Supported Python Versions
 *************************
 

@@ -1,0 +1,27 @@
+---
+description: Стиль Python и тесты TinyDB
+globs: tinydb/**/*.py,tests/**/*.py
+alwaysApply: false
+---
+
+# Стиль и тесты
+
+PEP 8. Многострочный docstring: кавычки на своих строках, затем пустая строка, затем код — как в `CONTRIBUTING.rst`.
+
+Новая функция в `operations.py` повторяет `add`: аннотация, docstring, внутренний `transform`, возврат callable. Она не открывает storage.
+
+Тест операции — функция `test_*` в `tests/test_operations.py`, фикстура `db`, условие через `where`. Фикстура уже гоняет тест на памяти и на JSON и кладёт три документа `int=1`, `char=a|b|c`.
+
+Багфикс и новая функция без теста не готовы. Рефакторинг не меняет ожидания тестов. После правок `tinydb/` или `tests/` запустить `uv run py.test -v --cov=tinydb`. Если `uv` нет, не останавливаться: venv вне репозитория, `pip install pytest pytest-cov pycodestyle pytest-pycodestyle`, `pip install -e .`, затем `python -m pytest -v --cov=tinydb`. В ответе назвать это запасным прогоном. Узкий прогон одного файла полным не называть. Существующий импорт дополнять именем; на несколько строк переносить только если строка длиннее 79 символов.
+
+```python
+# плохо: операция сама лезет в базу
+def add(field, n):
+    db.update(...)
+
+# хорошо: как уже сделано в operations.add
+def add(field: str, n: Union[int, float, str]) -> Callable[[MutableMapping], None]:
+    def transform(doc: MutableMapping):
+        doc[field] += n
+    return transform
+```

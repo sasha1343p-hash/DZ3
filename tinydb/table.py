@@ -1,3 +1,4 @@
+# tinydb-agent: rules-ok
 """
 This module implements tables, the central place for accessing and manipulating
 data in TinyDB.
@@ -748,10 +749,10 @@ class Table:
 
         # If we already know the next ID
         if self._next_id is not None:
-            next_id = self._next_id
-            self._next_id = next_id + 1
+            issued_id = self._next_id
+            self._next_id = issued_id + 1
 
-            return next_id
+            return issued_id
 
         # Determine the next document ID by finding out the max ID value
         # of the current table documents
@@ -761,20 +762,20 @@ class Table:
 
         # If the table is empty, set the initial ID
         if not table:
-            next_id = 1
-            self._next_id = next_id + 1
+            issued_id = 1
+            self._next_id = issued_id + 1
 
-            return next_id
+            return issued_id
 
         # Determine the next ID based on the maximum ID that's currently in use
-        max_id = max(self.document_id_class(i) for i in table.keys())
-        next_id = max_id + 1
+        highest_id = max(self.document_id_class(i) for i in table.keys())
+        issued_id = highest_id + 1
 
         # The next ID we will return AFTER this call needs to be larger than
         # the current next ID we calculated
-        self._next_id = next_id + 1
+        self._next_id = issued_id + 1
 
-        return next_id
+        return issued_id
 
     def _read_table(self) -> dict[str, Mapping]:
         """
